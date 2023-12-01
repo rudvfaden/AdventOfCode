@@ -1,7 +1,7 @@
 data ind;
-length code $100;
-input code $;
-datalines;
+    length code $100;
+    input code $;
+    datalines;
 9sixsevenz3
 seven1cvdvnhpgthfhfljmnq
 6tvxlgrsevenjvbxbfqrsk4seven
@@ -1005,26 +1005,87 @@ four289
 ;
 run;
 
+/*data ind;*/
+/*length code $100;*/
+/*input code $;*/
+/*datalines;*/
+/*sevenine*/
+/*eighthree*/
+/*;run;*/
 %macro lp;
-%let list=one two three four five six seven eight nine;
-%do i=1 %to 9;
-    %let word=%scan(&list,&i);
-    newcode=tranwrd(newcode,"&word",&i);
-%end;
+    %let list=one two three four five six seven eight nine;
+
+    %do i=1 %to 9;
+        %let word=%scan(&list,&i);
+
+        if first="&word" then
+            f2=&i;
+
+        if last="&word" then
+            l2=&i;
+    %end;
 %mend lp;
 
 data t1;
-set ind;
-newcode = code;
-%lp;
-numbers_only = compress(newcode, '', 'A');
-*numbers_only = compress(code, '', 'A');
-f_dig=substr(numbers_only,1,1);
-l_dig=substr(numbers_only,length(numbers_only),1);
-fl=cats(f_dig,l_dig);
-fl_num=input(fl,8.);
+    set ind;
+    text = code;
+    start = 1;
+    stop = length(text);
+    length first last $20;
+    ExpressionID = prxparse('/one|two|three|four|five|six|seven|eight|nine/');
+    call prxnext(ExpressionID, start, stop, text, position, length);
+    first=substr(text, position, length);
+    fs=position;
+    fl=length;
+
+    do while (position > 0);
+        last=substr(text, position, length);
+        ls=position;
+        ll=length;
+        call prxnext(ExpressionID, start, stop, text, position, length);
+    end;
+
+    text = code;
+    start = 1;
+    stop = length(text);
+    ExpressionID2 = prxparse('/[1-9]/');
+    call prxnext(ExpressionID2, start, stop, text, position, length);
+    firstn=substr(text, position, length);
+    fsn=position;
+    fln=length;
+
+    do while (position > 0);
+        lastn=substr(text, position, length);
+        lsn=position;
+        lln=length;
+        call prxnext(ExpressionID2, start, stop, text, position, length);
+    end;
+
+    %lp;
+
+    if 0<fs<fsn then
+        f=put(f2,8.);
+    else f=firstn;
+
+    if ls>lsn then
+        l=put(l2,8.);
+    else l=lastn;
+
+    if missing(f) then
+        f=l;
+
+    if first ne '' and fs<fsn then
+        f=put(f2,8.);
+    else f=firstn;
+
+    if last ne '' and ls>lsn then
+        l=put(l2,8.);
+    else l=lastn;
+    fl_string=cats(f,l);
+    fl_num=input(fl_string,8.);
+    drop position start stop ExpressionID ExpressionID2 text;
 run;
 
 proc summary sum data=t1 print;
-var fl_num;
+    var fl_num;
 run;
