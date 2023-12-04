@@ -1032,7 +1032,7 @@ data t1;
     start = 1;
     stop = length(text);
     length first last $20;
-    ExpressionID = prxparse('/one|two|three|four|five|six|seven|eight|nine/');
+    ExpressionID = prxparse('/(?=(one|two|three|four|five|six|seven|eight|nine))/');
     call prxnext(ExpressionID, start, stop, text, position, length);
     first=substr(text, position, length);
     fs=position;
