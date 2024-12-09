@@ -19,6 +19,8 @@ def evalueate(numbers: list, operations: list) -> int:
             result += numbers[i + 1]
         elif operation == '*':
             result *= numbers[i + 1]
+        elif operation == '|':
+            result = int(str(result) + str(numbers[i + 1]))
     return result
 
 
@@ -32,4 +34,16 @@ for test_value, number in zip(test_values, numbers):
             sum_result += test_value
             break
 
-print(sum_result)
+print('part1:', sum_result)
+
+sum_result = 0
+for test_value, number in zip(test_values, numbers):
+    operation_combinations = product('+*|', repeat=len(number) - 1)
+    for operations in operation_combinations:
+        result = evalueate(number, operations)
+        # print(result, test_value, number, operations)
+        if result == test_value:
+            sum_result += test_value
+            break
+
+print('part2:', sum_result)
