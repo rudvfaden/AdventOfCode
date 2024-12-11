@@ -1,5 +1,6 @@
 from read_aoc_data import read_aoc_data
 import time
+from tqdm import tqdm
 
 data = read_aoc_data()
 
@@ -23,7 +24,7 @@ def first_none_index(lst: list) -> int:
 
 
 last_value = None
-for idx in range(len(unpacked_data)):
+for idx in tqdm(range(len(unpacked_data))):
     first_none = first_none_index(unpacked_data)
     if first_none:
         last_value = unpacked_data.pop()
