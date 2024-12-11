@@ -1,4 +1,5 @@
 from read_aoc_data import read_aoc_data
+import time
 
 data = read_aoc_data()
 
@@ -12,6 +13,9 @@ for idx, value in enumerate(data.strip()):
         unpacked_data.extend([None] * int(value))
 
 
+start_time = time.time()
+
+
 def first_none_index(lst: list) -> int:
     for idx, value in enumerate(lst):
         if value is None:
@@ -19,7 +23,7 @@ def first_none_index(lst: list) -> int:
 
 
 last_value = None
-for idx, value in enumerate(unpacked_data):
+for idx in range(len(unpacked_data)):
     first_none = first_none_index(unpacked_data)
     if first_none:
         last_value = unpacked_data.pop()
@@ -31,3 +35,7 @@ for idx, value in enumerate(unpacked_data):
 
 resultat = sum(idx*block for idx, block in enumerate(unpacked_data))
 print(resultat)
+
+end_time = time.time()
+
+print(f"Execution time: {end_time - start_time:.6f} seconds")
