@@ -4,3 +4,4 @@ notebooks/cifar_net.pth
 .env
 **/input.txt
 **/*.pyc
+.DS_Store
