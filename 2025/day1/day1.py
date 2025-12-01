@@ -38,6 +38,5 @@ for comb in combination:
     turn = dail[pos]
     if turn == 0:
         number_zero += 1
-    print(f"The dial is rotated {comb} to point at {turn}., during this rotation, it points at 0 {number_crossed_zero} times.")
 
 print(number_zero, number_crossed_zero)
