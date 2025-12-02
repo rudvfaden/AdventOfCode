@@ -16,26 +16,29 @@ def repated_number(n):
         left = s[:mid]
         right = s[mid:]
         if left == right:
-            return int(s)    
+            return True  
         
-def repated_number_general(n):
-    s = str(n)
-    for k in range(2, find_middle(s)+1):
-        substr = s[:k]
-        mid = substr // 2
-        left = substr[:-mid]
-        right = substr[mid:]
-        if left == right:
-            return int(s[-k:])
+def is_repeated_pattern(s):
+    n = len(s)
+    for pattern_len in range(1, n // 2 + 1):
+        pattern = s[:pattern_len]
+        if pattern * (n // pattern_len) == s:
+            return True
+    return False
 
 
 total = 0
+total2 = 0
 rranges = [num.split('-') for num in ranges]
 r = [list(map(int, sublist)) for sublist in rranges]
+
 
 for rr in rranges:
     for i in range(int(rr[0]), int(rr[1])+1):
             if repated_number(i):
-                total += repated_number(i)
+                total += i
+            if is_repeated_pattern(str(i)):
+                total2 += i
+            #print(i,is_repeated_pattern(str(i)))
 
-print(total)
+print(total, total2)
