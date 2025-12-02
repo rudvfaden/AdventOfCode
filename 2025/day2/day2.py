@@ -1,6 +1,7 @@
+ranges = []
 with open("2025/day2/input.txt", 'r') as file:
     for line in file:
-        ranges = line.split(',')
+        ranges.extend(line.strip().split(','))
 
 def find_middle(lst):
     mid_index = len(lst) // 2
