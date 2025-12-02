@@ -1,8 +1,8 @@
-dail = tuple(range(0,100))
+dail = tuple(range(0, 100))
 
 combination = []
 with open("2025/day1/input.txt") as f:
-    for line in f:     
+    for line in f:
         combination.append(line.strip())
 
 turn = 50
@@ -17,7 +17,7 @@ for comb in combination:
         move = int(comb[1:])
     else:
         continue
-    
+
     # Tæl hvor mange gange vi krydser 0
     if move < 0:  # Drej moed ventre
         # tjek om vi krydser 0 mellem turn og (turn - move)
@@ -33,7 +33,7 @@ for comb in combination:
             pos = (turn + i) % len(dail)
             if pos == 0:
                 number_crossed_zero += 1
-    
+
     pos = (turn + move) % len(dail)
     turn = dail[pos]
     if turn == 0:
