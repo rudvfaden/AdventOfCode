@@ -1,8 +1,13 @@
 from itertools import combinations
 
-# source digits
-l = list('811111111111119')
+l = []
+with open('2025/day3/input.txt') as f:
+    for line in f:
+        l.append(line.strip())
 
-# produce all 2-combinations and convert each tuple of chars into a concatenated int
-# use a set to keep only distinct values, then sort for deterministic output
-print(max(sorted({int(''.join(pair)) for pair in combinations(l, 2)})))
+total = 0
+for i in l:
+    set_of_combinations ={int(''.join(pair)) for pair in combinations(i, 2)}
+    total += max(set_of_combinations)
+
+print(total)
