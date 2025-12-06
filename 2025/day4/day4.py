@@ -1,5 +1,10 @@
-def count_adjacent_at_symbols(grid, row, col):
-    """Count the number of '@' symbols in the 8 adjacent positions."""
+from pathlib import Path
+from typing import List, Tuple
+
+TARGET_CHAR = '@'
+
+def count_adjacent_target_symbols(grid: List[str], row: int, col: int) -> int:
+    """Count the number of target symbols in the 8 adjacent positions."""
     rows = len(grid)
     cols = len(grid[0])
     count = 0
@@ -17,16 +22,16 @@ def count_adjacent_at_symbols(grid, row, col):
 
         # Check if the position is within bounds
         if 0 <= new_row < rows and 0 <= new_col < cols:
-            if grid[new_row][new_col] == '@':
+            if grid[new_row][new_col] == TARGET_CHAR:
                 count += 1
 
     return count
 
 
-def find_at_with_fewer_than_eight_adjacent(filename):
-    """Find all '@' symbols that have fewer than 8 adjacent '@' symbols."""
+def find_targets_with_fewer_than_eight_adjacent(file_path: Path) -> Tuple[List[Tuple[int, int, int]], List[str]]:
+    """Find all target symbols that have fewer than 8 adjacent target symbols."""
     # Read the input file
-    with open(filename, 'r') as f:
+    with file_path.open('r') as f:
         grid = [line.strip() for line in f.readlines()]
 
     results = []
@@ -34,8 +39,8 @@ def find_at_with_fewer_than_eight_adjacent(filename):
     # Iterate through each position in the grid
     for row in range(len(grid)):
         for col in range(len(grid[row])):
-            if grid[row][col] == '@':
-                adjacent_count = count_adjacent_at_symbols(grid, row, col)
+            if grid[row][col] == TARGET_CHAR:
+                adjacent_count = count_adjacent_target_symbols(grid, row, col)
                 if adjacent_count < 8:
                     results.append((row, col, adjacent_count))
 
@@ -43,12 +48,17 @@ def find_at_with_fewer_than_eight_adjacent(filename):
 
 
 if __name__ == "__main__":
-    filename = "2025/day4/input.txt"
-    results, grid = find_at_with_fewer_than_eight_adjacent(filename)
+    # Use pathlib to resolve the input file path relative to this script
+    input_file = Path(__file__).parent / "input.txt"
+    
+    if not input_file.exists():
+        print(f"Error: Input file not found at {input_file}")
+    else:
+        results, grid = find_targets_with_fewer_than_eight_adjacent(input_file)
 
-    # Show some statistics
-    if results:
-        from collections import Counter
-        count_distribution = Counter([count for _, _, count in results])
-        total_less_than_4 = sum(v for k,v in count_distribution.items() if k<4)
-        print(f"\nTotal positions with fewer than 4 adjacent '@' symbols: {total_less_than_4}")
+        # Show some statistics
+        if results:
+            from collections import Counter
+            count_distribution = Counter([count for _, _, count in results])
+            total_less_than_4 = sum(v for k,v in count_distribution.items() if k < 4)
+            print(f"\nTotal positions with fewer than 4 adjacent '{TARGET_CHAR}' symbols: {total_less_than_4}")
