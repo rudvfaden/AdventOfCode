@@ -12,15 +12,13 @@ for row_idx in range(1, len(data)):
 
     for pos in current_positions:
         # Check if there's a '^' at current position
-        if 0 <= pos < len(row) and row[pos] == '^':
+        if row[pos] == '^':
             # Count this split
             split_count += 1
             # Add left and right positions
-            if pos - 1 >= 0:
-                next_positions.append(pos - 1)
-            if pos + 1 < len(row):
-                next_positions.append(pos + 1)
-        elif 0 <= pos < len(row) and row[pos] == '.':
+            next_positions.append(pos - 1)
+            next_positions.append(pos + 1)
+        elif row[pos] == '.':
             # Continue straight down through empty space
             next_positions.append(pos)
 
