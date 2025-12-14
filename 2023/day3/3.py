@@ -1,9 +1,9 @@
 import re
 
-data = [l.strip() for l in open("2023/data/1.in")]
+data = [line.strip() for line in open("2023/data/1.in")]
 
-digits = re.compile("\d+")
-symbol = re.compile("[^a-z0-9\.]+")
+digits = re.compile(r"\d+")
+symbol = re.compile(r"[^a-z0-9\.]+")
 
 
 partnumber = []
@@ -14,11 +14,11 @@ for x in data:
         start = part.start()
         end = part.end()
         partno = part.group()
-        for i in range(start-1, end+1):
+        for i in range(start - 1, end + 1):
             for q in range(-1, 1):
-                if j+q >= 0 and j+q <= 10:
-                    print(j+q, i, start, end)
-                    if re.finditer(symbol, data[j+q][i]):
+                if j + q >= 0 and j + q <= 10:
+                    print(j + q, i, start, end)
+                    if re.finditer(symbol, data[j + q][i]):
                         partnumber.append(data[j][start:end])
                         # print(data[j+q][i])
     j += 1
